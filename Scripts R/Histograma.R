@@ -8,17 +8,17 @@ planilha <- readr::read_csv(
 
 pf <- dplyr::filter(
   planilha, year == 2018
-   ) |> 
+) |> 
   dplyr::select(
     co2_per_capita, ghg_per_capita, ghg_excluding_lucf_per_capita,	
-    methane_per_capita,	energy_per_gdp, country
-   ) |> 
+    methane_per_capita,	energy_per_gdp, energy_per_capita, ghg_excluding_lucf_per_capita
+  ) |> 
   dplyr::filter_all(
     dplyr::all_vars(. > 0)
-   ) |> 
+  ) |> 
   dplyr::rename(
-    Co2_pc = co2_per_capita, Ghg_pc = ghg_per_capita, Ghg_el_pc = ghg_excluding_lucf_per_capita,
-    Methane_pc = methane_per_capita, Energy_pgdp = energy_per_gdp
+    y = co2_per_capita, x1 = ghg_per_capita, x2 = ghg_excluding_lucf_per_capita,
+    x3 = methane_per_capita, x4 = energy_per_gdp, x5 = energy_per_capita
   ) 
 
 pf <- pf[!(row.names(pf) %in% c("159")),]
@@ -60,7 +60,7 @@ fdac <- function(y, lambda, mu)
 
 y=pf$Co2_pc
 
-theta=c(mu=median(pf$Co2_pc), lambda=0.7)
+theta=c(mu=median(pf$y), lambda=0.7)
 maxiB = optim(theta, lvc, y=y, 
              control = list(fnscale=-1))
 

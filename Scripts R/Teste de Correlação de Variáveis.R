@@ -8,19 +8,20 @@ planilha <- readr::read_csv(
 
 pf <- dplyr::filter(
   planilha, year == 2018
-  ) |> 
+) |> 
   dplyr::select(
      co2_per_capita, ghg_per_capita, ghg_excluding_lucf_per_capita,	
-     methane_per_capita,	energy_per_gdp
-    ) |> 
+    methane_per_capita,	energy_per_gdp, energy_per_capita, ghg_excluding_lucf_per_capita
+   ) |> 
   dplyr::filter_all(
     dplyr::all_vars(. > 0)
-    ) |> 
+  ) |> 
   dplyr::rename(
-    Co2_pc = co2_per_capita, Ghg_pc = ghg_per_capita, Ghg_el_pc = ghg_excluding_lucf_per_capita,
-    Methane_pc = methane_per_capita, Energy_pgdp = energy_per_gdp
+    y = co2_per_capita, x1 = ghg_per_capita, x2 = ghg_excluding_lucf_per_capita,
+    x3 = methane_per_capita, x4 = energy_per_gdp, x5 = energy_per_capita
   )
-  
+
+pf <- pf[!(row.names(pf) %in% c("158")),]
 
 # Corrplot
 
