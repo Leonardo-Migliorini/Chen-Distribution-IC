@@ -10,15 +10,14 @@ pf <- dplyr::filter(
   planilha, year == 2018
 ) |> 
   dplyr::select(
-     co2_per_capita, ghg_per_capita, ghg_excluding_lucf_per_capita,	
-    methane_per_capita,	energy_per_gdp, energy_per_capita, ghg_excluding_lucf_per_capita
+     co2_per_capita, ghg_excluding_lucf_per_capita, methane_per_capita,	energy_per_gdp
    ) |> 
   dplyr::filter_all(
     dplyr::all_vars(. > 0)
   ) |> 
   dplyr::rename(
-    y = co2_per_capita, x1 = ghg_per_capita, x2 = ghg_excluding_lucf_per_capita,
-    x3 = methane_per_capita, x4 = energy_per_gdp, x5 = energy_per_capita
+    y = co2_per_capita, x1 = ghg_excluding_lucf_per_capita,
+    x2 = methane_per_capita, x3 = energy_per_gdp
   )
 
 pf <- pf[!(row.names(pf) %in% c("158")),]

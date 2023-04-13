@@ -10,16 +10,15 @@ pf <- dplyr::filter(
   planilha, year == 2018
 ) |> 
   dplyr::select(
-    co2_per_capita, ghg_per_capita, ghg_excluding_lucf_per_capita,	
-    methane_per_capita,	energy_per_gdp, energy_per_capita, ghg_excluding_lucf_per_capita
+    co2_per_capita, ghg_excluding_lucf_per_capita, methane_per_capita,	energy_per_gdp
   ) |> 
   dplyr::filter_all(
     dplyr::all_vars(. > 0)
   ) |> 
   dplyr::rename(
-    y = co2_per_capita, x1 = ghg_per_capita, x2 = ghg_excluding_lucf_per_capita,
-    x3 = methane_per_capita, x4 = energy_per_gdp, x5 = energy_per_capita
-  ) 
+    y = co2_per_capita, x1 = ghg_excluding_lucf_per_capita, x2 = methane_per_capita, 
+    x3 = energy_per_gdp
+  )
 
 pf <- pf[!(row.names(pf) %in% c("159")),]
 
@@ -58,14 +57,13 @@ fdac <- function(y, lambda, mu)
   return(pr)
 }
 
-y=pf$Co2_pc
+y=pf$y
 
 theta=c(mu=median(pf$y), lambda=0.7)
 maxiB = optim(theta, lvc, y=y, 
              control = list(fnscale=-1))
 
 x=seq(0.001,max(y), by=0.1)
-hist(y, freq = F, main="", xlab="Valores de x",
-     ylab="Densidade", ylim=c(0,0.2))
-curve(dpcr(x, lambda=maxiB$par[2], mu=maxiB$par[1]),col=2, lty=1,lwd=1,add=T)
+hist(y, col="white", freq = F, main="", xlab="Valores de x", ylab="Densidade", ylim=c(0,0.2))
+curve(dpcr(x, lambda=maxiB$par[2], mu=maxiB$par[1]),col="black", lty=1,lwd=1,add=T)
 
