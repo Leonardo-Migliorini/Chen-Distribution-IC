@@ -164,12 +164,12 @@ chen_reg.fit<- function (y, X, tau=0.5,link="log", diag=1)
   z$loglik <- opt$value
   z$counts <- as.numeric(opt$counts[1])
   z$aic <- -2*z$loglik+2*(1+length(beta))
-  z$bic <- -2*z$loglik+log(n)*(1+length(beta))
-  z$rsq <- 1 - exp(-2/n*(z$loglik - opth0$value))
+  z$bic <- -2*z$loglik+log(nrow(X))*(1+length(beta))
+  z$rsq <- 1 - exp(-2/nrow(X)*(z$loglik - opth0$value))
   
   model_presentation <- cbind(round(z$coef,4),round(z$stderror,4),round(z$zstat,4),round(z$pvalues,4))
   colnames(model_presentation)<-c("Estimate","Std. Error","z value","Pr(>|z|)")
-  
+
   z$model <- model_presentation
   if( diag==1){
     print(model_presentation)

@@ -5,6 +5,7 @@ diag.br.fit <- function(model=fit.model,sim=100,conf=.95, pch=1,  pdf=0) {
   ylab= "Residuals (absolute values)"
   xlab= "Normal quantiles"
   
+
   alfa <-(1-conf)/2
   lambda=model$lambda
   X=model$X
